@@ -96,7 +96,7 @@ class StreamDockPrintCapture:
                 proc = subprocess.Popen(
                     cmd, 
                     stdout=subprocess.DEVNULL, 
-                    stderr=subprocess.PIPE,
+                    stderr=subprocess.DEVNULL,
                     env=os.environ.copy()
                 )
                 running_processes[key] = proc
