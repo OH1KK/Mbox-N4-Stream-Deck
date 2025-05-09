@@ -46,6 +46,23 @@ chmod +x kkdeck.py
 
 ## Usage
 
-Pressing button 2 lauches gnome-calculator
+Pressing button lauches program and pressing button agains kills it.
 
-Other keypresses show button keycode
+Programs
+````
+BUTTON_COMMANDS = {
+    1: ["/usr/bin/gnome-terminal"],
+    2: ["/usr/bin/gnome-calculator"],
+    3: ["/usr/bin/gedit"],
+    4: ["/usr/bin/xclock"],
+    5: ["/usr/bin/gimp"],
+    6: ["/usr/local/bin/camscript", "frontdoor"],
+    7: ["/usr/local/bin/camscript", "backyard"],
+    8: ["/usr/local/bin/camscript", "garage"],
+    9: ["/usr/local/bin/camscript", "hamschack"],
+    10: ["/usr/bin/firefox"],
+}
+````
+
+Rotaty buttons and touchscreen show event, but they are not mapped to anywhere in this code.
+
