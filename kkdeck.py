@@ -6,24 +6,35 @@ from StreamDock.DeviceManager import DeviceManager
 from StreamDock.Devices.StreamDockN1 import StreamDockN1
 import threading
 import time
-
-# Function for button 2's commands
-def button_2_actions():
-    print("Button 2 was pressed - launching gnome-calculator")
-    os.system("/usr/bin/gnome-calculator")  # Launch gnome calculator
+import subprocess
 
 # Dictionary to map button numbers to commands
 BUTTON_COMMANDS = {
-    1: lambda: (print("Button 1 was pressed"), print("Button 1: Executing command 1")),  # Multiple actions in lambda
-    2: lambda: button_2_actions(),  # Call a function with multiple actions
-    3: lambda: print("Button 3 pressed: Executing command 3"),
-    4: lambda: print("Button 4 pressed: Executing command 4"),
-    5: lambda: print("Button 5 pressed: Executing command 5"),
-    # Add more mappings as needed for buttons 6-10
+    1: ["/usr/bin/gnome-terminal"],
+    2: ["/usr/bin/gnome-calculator"],
+    3: ["/usr/bin/gedit"],
+    4: ["/usr/bin/xclock"],
+    5: ["/usr/bin/gimp"],
+    6: ["/usr/local/bin/camscript", "frontdoor"],
+    7: ["/usr/local/bin/camscript", "backyard"],
+    8: ["/usr/local/bin/camscript", "garage"],
+    9: ["/usr/local/bin/camscript", "hamschack"],
+    10: ["/usr/bin/firefox"],
 }
+
+# Dictionary to store running processes
+running_processes = {}
 
 def signal_handler(sig, frame):
     print("\nShutting down gracefully...")
+    # Terminate all running processes
+    for key, proc in running_processes.items():
+        if proc.poll() is None:  # Check if process is still running
+            proc.terminate()
+            try:
+                proc.wait(timeout=2)  # Wait briefly for graceful termination
+            except subprocess.TimeoutExpired:
+                proc.kill()  # Force kill if it doesn't terminate
     for device in streamdocks:
         device.close()
     sys.exit(0)
@@ -56,7 +67,7 @@ class StreamDockPrintCapture:
                 if status == 1 and key in BUTTON_COMMANDS:
                     current_time = time.time()
                     if current_time - self.last_press_time > self.debounce_interval:
-                        BUTTON_COMMANDS[key]()
+                        self.handle_button_press(key)
                         self.last_press_time = current_time
         # Ensure newline after feedback
         if text.endswith("Status: 0") or text.endswith("Status: 1"):
@@ -64,6 +75,29 @@ class StreamDockPrintCapture:
 
     def flush(self):
         self.original_stdout.flush()
+
+    def handle_button_press(self, key):
+        """Handle button press: start or kill the process for the button."""
+        print(f"Button {key} was pressed")
+        if key in running_processes and running_processes[key].poll() is None:
+            # Process is running; terminate it
+            running_processes[key].terminate()
+            try:
+                running_processes[key].wait(timeout=2)
+                print(f"Terminated process for button {key}")
+            except subprocess.TimeoutExpired:
+                running_processes[key].kill()
+                print(f"Forced termination of process for button {key}")
+            del running_processes[key]
+        else:
+            # No process running; start a new one
+            cmd = BUTTON_COMMANDS[key]
+            try:
+                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                running_processes[key] = proc
+                print(f"Started process for button {key} with PID {proc.pid}")
+            except Exception as e:
+                print(f"Failed to start process for button {key}: {e}")
 
 if __name__ == "__main__":
     # Set up signal handler for Ctrl+C
@@ -95,7 +129,7 @@ if __name__ == "__main__":
         # Set touchscreen background image
         device.set_touchscreen_image("./img/sliderbg.png")
         device.refresh()
-        time.sleep(2)
+        time.sleep(4)
         
         # Set key images with fallback to button_template.png
         for i in range(1, 11):
@@ -107,16 +141,6 @@ if __name__ == "__main__":
             device.refresh()
         time.sleep(2)
         
-        ## Clear single key icon
-        #device.cleaerIcon(3)
-        #device.refresh()
-        #time.sleep(1)
-        
-        ## Clear all key icons
-        #device.clearAllIcon()
-        #device.refresh()
-        #time.sleep(0)
-        
         # Switch mode for N1 devices
         if isinstance(device, StreamDockN1):
             device.switch_mode(0)
@@ -127,4 +151,3 @@ if __name__ == "__main__":
             time.sleep(1)
     except KeyboardInterrupt:
         signal_handler(None, None)
-
