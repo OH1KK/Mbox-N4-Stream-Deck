@@ -41,3 +41,9 @@ chmod +x kkdeck.py
 ````
 ./kkdeck.py
 ````
+
+## Usage
+
+Pressing button 2 lauches gnome-calculator
+
+Other keypresses show button keycode
