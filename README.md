@@ -34,10 +34,10 @@ Then clone this repository and try it out.
 ````
 git clone https://github.com/OH1KK/Mbox-N4-Stream-Deck.git
 cd Mbox-N4-Stream-Deck
-chmod +x kkdock.py
+chmod +x kkdeck.py
 ````
 ## After install
 
 ````
-./kkdock.py
+./kkdeck.py
 ````
