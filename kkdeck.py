@@ -93,7 +93,12 @@ class StreamDockPrintCapture:
             # No process running; start a new one
             cmd = BUTTON_COMMANDS[key]
             try:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                proc = subprocess.Popen(
+                    cmd, 
+                    stdout=subprocess.DEVNULL, 
+                    stderr=subprocess.PIPE,
+                    env=os.environ.copy()
+                )
                 running_processes[key] = proc
                 print(f"Started process for button {key} with PID {proc.pid}")
             except Exception as e:
