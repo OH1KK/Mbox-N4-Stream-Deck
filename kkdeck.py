@@ -93,26 +93,29 @@ if __name__ == "__main__":
         t.start()
         
         # Set touchscreen background image
-        device.set_touchscreen_image("./img/YiFei320.png")
+        device.set_touchscreen_image("./img/sliderbg.png")
         device.refresh()
         time.sleep(2)
         
-        # Set key images
+        # Set key images with fallback to button_template.png
         for i in range(1, 11):
-            device.set_key_image(i, "./img/tiga64.png")
+            image_path = f"./img/b{i}.png"
+            if os.path.exists(image_path):
+                device.set_key_image(i, image_path)
+            else:
+                device.set_key_image(i, "./img/button_template.png")
             device.refresh()
-        
         time.sleep(2)
         
-        # Clear single key icon
-        device.cleaerIcon(3)
-        device.refresh()
-        time.sleep(1)
+        ## Clear single key icon
+        #device.cleaerIcon(3)
+        #device.refresh()
+        #time.sleep(1)
         
-        # Clear all key icons
-        device.clearAllIcon()
-        device.refresh()
-        time.sleep(0)
+        ## Clear all key icons
+        #device.clearAllIcon()
+        #device.refresh()
+        #time.sleep(0)
         
         # Switch mode for N1 devices
         if isinstance(device, StreamDockN1):
