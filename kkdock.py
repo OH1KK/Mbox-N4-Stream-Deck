@@ -9,8 +9,8 @@ import time
 
 # Function for button 2's commands
 def button_2_actions():
-    print("Button 2 was pressed - launching camera")
-    os.system("/usr/local/bin/kamera kau")  # Example second command
+    print("Button 2 was pressed - launching gnome-calculator")
+    os.system("/usr/bin/gnome-calculator")  # Launch gnome calculator
 
 # Dictionary to map button numbers to commands
 BUTTON_COMMANDS = {
