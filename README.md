@@ -64,5 +64,5 @@ BUTTON_COMMANDS = {
 }
 ````
 
-Rotaty buttons and touchscreen show event, but they are not mapped to anywhere in this code.
+Rotary button rotate+push, and touchscreen swipe events are shown on console, but they are not used in this example.
 
