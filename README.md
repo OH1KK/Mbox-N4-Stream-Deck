@@ -30,9 +30,10 @@ sudo apt install -y python3-pyudev libusb-dev libhidapi-libusb0 python3-willow g
 Then clone this repository and try it out.
 
 ````
-git clone ...
-cd ....
-python ./kkdock.py
+git clone https://github.com/OH1KK/Mbox-N4-Stream-Deck.git
+cd Mbox-N4-Stream-Deck
+chmod +x kkdock.py
+./kkdock.py
 ````
 
 
