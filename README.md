@@ -1,5 +1,7 @@
 # Mbox-N4-Stream-Deck
 
+![Mbox-N4-Stream-Deck](https://raw.githubusercontent.com/OH1KK/Mbox-N4-Stream-Deck/refs/heads/main/img/Mbox-N4-Stream-Deck.jpg)
+
 This is my try to to get Mirabox M4 Stream Deck to work in Ubuntu 24.10. Repository is mainly for myself to remember how I got it working. This is not production ready code, instead an example how to communicate with a device.
 
 This code includes part of StreamDock-Device-SDK which is available https://github.com/MiraboxSpace/StreamDock-Device-SDK/
