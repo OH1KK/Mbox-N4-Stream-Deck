@@ -2,7 +2,9 @@
 
 This is my first to to get Mirabox M4 Stream Deck to work in ubuntu. Repository is mainly for myself to remember how I got it working. This is not production ready code, instead an example how to communicate with a device.
 
-This code includes part of StreamDock-Device-SDK which is avaiable https://github.com/MiraboxSpace/StreamDock-Device-SDK/
+This code includes part of StreamDock-Device-SDK which is available https://github.com/MiraboxSpace/StreamDock-Device-SDK/
+
+## Install
 
 First make mirabox available to regular user
 
